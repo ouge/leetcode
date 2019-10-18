@@ -1,75 +1,43 @@
 package leetcode
 
-func minInt(a, b int) int {
-	if a < b {
-		return a
-	} else {
-		return b
-	}
-}
-
-func maxInt(a, b int) int {
-	if a < b {
-		return b
-	} else {
-		return a
-	}
-}
-
-func maximalSquare(matrix [][]byte) int {
+func maximalSquare(matrix [][]byte) (ret int) {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return 0
 	}
-	n := len(matrix)
-	m := len(matrix[0])
-	maxSquare := make([][]int, n)
-	maxX := make([][]int, n)
-	maxY := make([][]int, n)
-	maxZ := make([][]int, n)
-	for i := range maxSquare {
+	n, m := len(matrix), len(matrix[0])
+	maxSquare := make([][]int, n) // maxSquare[i][j]: 以i,j为正方形右下角的最大正方形边长
+	for i := 0; i < n; i++ {
 		maxSquare[i] = make([]int, m)
-		maxX[i] = make([]int, m)
-		maxY[i] = make([]int, m)
-		maxZ[i] = make([]int, m)
-	}
-
-	if matrix[0][0] == 1 {
-		maxSquare[0][0] = 1
-		maxX[0][0] = 1
-		maxY[0][0] = 1
-		maxZ[0][0] = 1
-	}
-	for i := 1; i < n; i++ {
-		if matrix[i][0] == 1 {
+		if matrix[i][0] == '1' {
 			maxSquare[i][0] = 1
-			maxX[i][0] = 1
-			maxY[i][0] = 1
-			maxZ[i][0] = 1
-		} else {
-			maxSquare[i][0] = matrix[i-1][0]
-			maxY[i][0] = 0
-			maxX[i][0] =
+			ret = 1
+		}
+	}
+	for j := 0; j < m; j++ {
+		if matrix[0][j] == '1' {
+			maxSquare[0][j] = 1
+			ret = 1
 		}
 	}
 
 	for i := 1; i < n; i++ {
-		if matrix[i][0] == 1 {
-
-		}
-
 		for j := 1; j < m; j++ {
-			var v int
-			if i > 0 && v < maxSquare[i-1][j] {
-				v = maxSquare[i-1][j]
+			if matrix[i][j] == '1' {
+				// 只有当该块是1时，才需要计算，否则边长为0
+				// maxSquare[i][j] = min(maxSquare[i-1][j], maxSquare[i-1][j-1], maxSquare[i][j-1]) + 1
+				maxSquare[i][j] = maxSquare[i-1][j-1]
+				if maxSquare[i][j] > maxSquare[i-1][j] {
+					maxSquare[i][j] = maxSquare[i-1][j]
+				}
+				if maxSquare[i][j] > maxSquare[i][j-1] {
+					maxSquare[i][j] = maxSquare[i][j-1]
+				}
+				maxSquare[i][j]++
+				if ret < maxSquare[i][j] {
+					ret = maxSquare[i][j]
+				}
 			}
-			if j > 0 && v < maxSquare[i][j-1] {
-				v = maxSquare[i][j-1]
-			}
-			if matrix[i][j] == 1 && {
-
-			}
-
 		}
 	}
-
+	return ret * ret
 }
