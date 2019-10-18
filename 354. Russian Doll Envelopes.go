@@ -3,7 +3,6 @@ package leetcode
 import "sort"
 
 // 用于对输入排序
->>>>>>> origin/master
 type sortEnvelopes [][]int
 
 func (s sortEnvelopes) Len() int {
