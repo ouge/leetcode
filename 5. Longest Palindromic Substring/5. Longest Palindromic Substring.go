@@ -1,5 +1,6 @@
 package leetcode
 
+// TODO: 优化算法
 func longestPalindrome(s string) string {
 	if len(s) == 0 {
 		return ""
